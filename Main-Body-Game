@@ -75,7 +75,7 @@
     </div>
     <script>
         const images = [
-            { src: "image1.jpg", isLadyboy: true },
+            { src: "thai-girl-with-bangkok-city-blur-background-generative-ai_849906-22387.jpg", isLadyboy: false },
             { src: "image2.jpg", isLadyboy: false },
             { src: "image3.jpg", isLadyboy: true },
             { src: "image4.jpg", isLadyboy: false }
