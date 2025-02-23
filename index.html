@@ -3,109 +3,99 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ladyboy or Not?</title>
-    <link rel="stylesheet" href="style.css">
     <style>
         body {
-            font-family: 'Arial', sans-serif;
             text-align: center;
+            font-family: Arial, sans-serif;
             background-color: #222;
             color: white;
-            margin: 0;
-            padding: 20px;
-        }
-        .game-container {
-            max-width: 400px;
-            margin: auto;
-            background: #333;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
         }
         img {
-            width: 100%;
+            width: 300px;
             height: auto;
             border-radius: 10px;
-            margin-bottom: 20px;
-            transition: opacity 0.5s ease-in-out;
+            margin-top: 20px;
         }
         .buttons button {
-            padding: 15px 20px;
+            font-size: 18px;
+            padding: 10px;
             margin: 10px;
+            cursor: pointer;
+        }
+        #message {
+            font-size: 30px;
+            font-weight: bold;
+            color: red;
+            margin-top: 20px;
+            display: none;
+        }
+        #nextRound {
+            display: none;
+            font-size: 18px;
+            padding: 10px;
+            background-color: #28a745;
+            color: white;
             border: none;
             cursor: pointer;
-            font-size: 18px;
-            border-radius: 10px;
-            width: 45%;
-            transition: transform 0.2s;
         }
-        .buttons button:hover {
-            transform: scale(1.05);
-        }
-        .buttons button:first-child {
-            background-color: #ff4757;
-            color: white;
-        }
-        .buttons button:last-child {
-            background-color: #1e90ff;
-            color: white;
-        }
-        #result {
-            font-size: 22px;
-            margin-top: 20px;
-            font-weight: bold;
-            min-height: 30px;
-        }
-        #score {
-            font-size: 18px;
+        #highScore {
+            font-size: 20px;
             margin-top: 10px;
-            color: #ffdd57;
         }
     </style>
 </head>
 <body>
-    <div class="game-container">
-        <h1>Ladyboy or Not?</h1>
-        <img id="game-image" src="" alt="Guess the person">
-        <div class="buttons">
-            <button onclick="guess(true)">Ladyboy</button>
-            <button onclick="guess(false)">Not a Ladyboy</button>
-        </div>
-        <p id="result"></p>
-        <p id="score">Score: 0</p>
+    <h1>Ladyboy or Not?</h1>
+    <p>Score: <span id="score">0</span></p>
+    <p>High Score: <span id="highScore">0</span></p>
+    <img id="image" src="" alt="Guess the person">
+    <div class="buttons">
+        <button onclick="guess(true)">Ladyboy</button>
+        <button onclick="guess(false)">Not a Ladyboy</button>
     </div>
-    <script>
-        const images = [
+    <p id="message"></p>
+    <button id="nextRound" onclick="nextRound()">Next Round</button><script>
+    const images = [
             { src: "thai-girl-with-bangkok-city-blur-background-generative-ai_849906-22387.jpg", isLadyboy: false },
             { src: "asian-woman-studying-coworking-space-generative-ai_804788-202840.jpg", isLadyboy: false },
-        ];let currentImage = {};
+        ];
+    let currentImage = {};
     let score = 0;
-    
-    function loadRandomImage() {
-        currentImage = images[Math.floor(Math.random() * images.length)];
-        const imgElement = document.getElementById("game-image");
-        imgElement.style.opacity = "0";
-        setTimeout(() => {
-            imgElement.src = currentImage.src;
-            imgElement.style.opacity = "1";
-        }, 300);
-        document.getElementById("result").textContent = "";
+    let highScore = localStorage.getItem("highScore") || 0;
+    let currentIndex = 0;
+    document.getElementById("highScore").innerText = highScore;
+
+    function loadImage() {
+        document.getElementById("image").src = images[currentIndex].src;
     }
-    
-    function guess(isLadyboy) {
-        if (isLadyboy === currentImage.isLadyboy) {
-            document.getElementById("result").textContent = "Correct!";
-            document.getElementById("result").style.color = "#2ecc71";
+
+    function guess(userChoice) {
+        if (userChoice === images[currentIndex].isLadyboy) {
             score++;
+            if (score > highScore) {
+                highScore = score;
+                localStorage.setItem("highScore", highScore);
+            }
+            document.getElementById("score").innerText = score;
+            document.getElementById("highScore").innerText = highScore;
+            nextRound();
         } else {
-            document.getElementById("result").textContent = "Wrong!";
-            document.getElementById("result").style.color = "#e74c3c";
-            score = Math.max(0, score - 1);
+            score = 0;
+            document.getElementById("score").innerText = score;
+            document.getElementById("message").innerText = "Drink up!";
+            document.getElementById("message").style.display = "block";
+            document.getElementById("nextRound").style.display = "block";
         }
-        document.getElementById("score").textContent = `Score: ${score}`;
-        setTimeout(loadRandomImage, 1500);
     }
-    
-    window.onload = loadRandomImage;
+
+    function nextRound() {
+        document.getElementById("message").style.display = "none";
+        document.getElementById("nextRound").style.display = "none";
+        currentIndex = (currentIndex + 1) % images.length;
+        loadImage();
+    }
+
+    loadImage();
 </script>
 
 </body>
