@@ -76,9 +76,7 @@
     <script>
         const images = [
             { src: "thai-girl-with-bangkok-city-blur-background-generative-ai_849906-22387.jpg", isLadyboy: false },
-            { src: "image2.jpg", isLadyboy: false },
-            { src: "image3.jpg", isLadyboy: true },
-            { src: "image4.jpg", isLadyboy: false }
+            { src: "asian-woman-studying-coworking-space-generative-ai_804788-202840.jpg", isLadyboy: false },
         ];let currentImage = {};
     let score = 0;
     
