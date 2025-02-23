@@ -1,0 +1,114 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ladyboy or Not?</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background-color: #222;
+            color: white;
+            margin: 0;
+            padding: 20px;
+        }
+        .game-container {
+            max-width: 400px;
+            margin: auto;
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+        }
+        img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            transition: opacity 0.5s ease-in-out;
+        }
+        .buttons button {
+            padding: 15px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 18px;
+            border-radius: 10px;
+            width: 45%;
+            transition: transform 0.2s;
+        }
+        .buttons button:hover {
+            transform: scale(1.05);
+        }
+        .buttons button:first-child {
+            background-color: #ff4757;
+            color: white;
+        }
+        .buttons button:last-child {
+            background-color: #1e90ff;
+            color: white;
+        }
+        #result {
+            font-size: 22px;
+            margin-top: 20px;
+            font-weight: bold;
+            min-height: 30px;
+        }
+        #score {
+            font-size: 18px;
+            margin-top: 10px;
+            color: #ffdd57;
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <h1>Ladyboy or Not?</h1>
+        <img id="game-image" src="" alt="Guess the person">
+        <div class="buttons">
+            <button onclick="guess(true)">Ladyboy</button>
+            <button onclick="guess(false)">Not a Ladyboy</button>
+        </div>
+        <p id="result"></p>
+        <p id="score">Score: 0</p>
+    </div>
+    <script>
+        const images = [
+            { src: "image1.jpg", isLadyboy: true },
+            { src: "image2.jpg", isLadyboy: false },
+            { src: "image3.jpg", isLadyboy: true },
+            { src: "image4.jpg", isLadyboy: false }
+        ];let currentImage = {};
+    let score = 0;
+    
+    function loadRandomImage() {
+        currentImage = images[Math.floor(Math.random() * images.length)];
+        const imgElement = document.getElementById("game-image");
+        imgElement.style.opacity = "0";
+        setTimeout(() => {
+            imgElement.src = currentImage.src;
+            imgElement.style.opacity = "1";
+        }, 300);
+        document.getElementById("result").textContent = "";
+    }
+    
+    function guess(isLadyboy) {
+        if (isLadyboy === currentImage.isLadyboy) {
+            document.getElementById("result").textContent = "Correct!";
+            document.getElementById("result").style.color = "#2ecc71";
+            score++;
+        } else {
+            document.getElementById("result").textContent = "Wrong!";
+            document.getElementById("result").style.color = "#e74c3c";
+            score = Math.max(0, score - 1);
+        }
+        document.getElementById("score").textContent = `Score: ${score}`;
+        setTimeout(loadRandomImage, 1500);
+    }
+    
+    window.onload = loadRandomImage;
+</script>
+
+</body>
+</html>
